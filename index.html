@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel GOP · Gestão de Metas</title>
+  <meta name="description" content="Painel de acompanhamento mensal de metas de colaboradores." />
+
+  <!-- Tailwind (Play CDN: compila as classes utilitárias no navegador) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bibliotecas (ordem importa: React -> ReactDOM -> react-is -> Recharts) -->
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-is@18.3.1/umd/react-is.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/recharts@2.12.7/umd/Recharts.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <style>
+    html, body, #root { height: 100%; margin: 0; }
+    #boot { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+            font-family: Inter, system-ui, sans-serif; color: #65748A; background: #EDF0F3; }
+    #boot .err { max-width: 520px; padding: 20px 24px; background: #fff; border: 1px solid #E1E6EB;
+                 border-radius: 14px; color: #15212C; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div id="boot">Carregando painel…</div>
+  </div>
+
+  <!-- Ícones (SVG inline) -->
+  <script src="./icons.js"></script>
+
+  <!-- Aplicação (JS já transpilado, sem necessidade de build) -->
+  <script>
+    (function () {
+      function fail(msg) {
+        var b = document.getElementById("boot");
+        if (b) b.innerHTML = '<div class="err"><b>Não foi possível carregar o painel.</b><br>' + msg +
+          '<br><br>Verifique a conexão com a internet (as bibliotecas são carregadas de CDN) e recarregue a página.</div>';
+      }
+      if (!window.React || !window.ReactDOM) return fail("React não carregou.");
+      if (!window.Recharts) return fail("Recharts não carregou.");
+      if (!window.XLSX) return fail("Biblioteca de planilhas (XLSX) não carregou.");
+      if (!window.Icons) return fail("Ícones não carregaram (icons.js).");
+      var s = document.createElement("script");
+      s.src = "./app.js";
+      s.onerror = function () { fail("Arquivo app.js não encontrado."); };
+      document.body.appendChild(s);
+    })();
+  </script>
+</body>
+</html>
