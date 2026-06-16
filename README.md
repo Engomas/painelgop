@@ -11,48 +11,47 @@ de colaboradores. **Não precisa de build nem de servidor** — basta hospedar o
 | `app.js`       | A aplicação inteira (já compilada de React para JavaScript puro).    |
 | `icons.js`     | Ícones em SVG.                                                       |
 | `.nojekyll`    | Sinaliza ao GitHub Pages para servir os arquivos como estão.         |
+| `vendor/`      | (Opcional) bibliotecas locais, para não depender de CDN.             |
 
-As bibliotecas React, Recharts e XLSX são carregadas de CDN (internet) pelo `index.html`.
+As bibliotecas (React, Recharts, XLSX) são baixadas de CDN pelo `index.html`. O carregador
+tenta automaticamente **3 CDNs diferentes** (jsDelivr, cdnjs e unpkg) para cada biblioteca —
+se um estiver fora do ar ou bloqueado, ele usa o próximo.
 
 ## Como publicar no GitHub Pages
 
-1. Crie um repositório no GitHub (ex.: `painel-gop`).
-2. Envie **todos os arquivos desta pasta** para a raiz do repositório
-   (`index.html`, `app.js`, `icons.js`, `.nojekyll`). Pode ser pelo site do
-   GitHub em **Add file → Upload files**, arrastando os arquivos.
-3. No repositório, vá em **Settings → Pages**.
-4. Em **Build and deployment → Source**, escolha **Deploy from a branch**.
-5. Em **Branch**, selecione `main` e a pasta `/ (root)`. Clique em **Save**.
-6. Aguarde 1–2 minutos. O endereço aparecerá no topo da página de Pages, algo como:
-   `https://SEU-USUARIO.github.io/painel-gop/`
+1. Crie um repositório no GitHub.
+2. Envie **todos os arquivos** para a raiz do repositório (`index.html`, `app.js`,
+   `icons.js`, `.nojekyll`).
+3. **Settings → Pages → Source:** "Deploy from a branch" → branch `main`, pasta `/ (root)` → Save.
+4. Em 1–2 minutos o endereço aparece (ex.: `https://SEU-USUARIO.github.io/painelgop/`).
 
-Pronto — o painel estará no ar.
+## Rede corporativa bloqueando os CDNs? (deixar 100% local)
+
+Se sua empresa bloqueia jsDelivr/cdnjs/unpkg, baixe as bibliotecas e coloque-as numa
+pasta `vendor` **dentro do repositório**. O `index.html` já procura nelas primeiro.
+
+Crie a pasta `vendor/` e baixe estes arquivos (de uma máquina com internet liberada),
+salvando com **exatamente estes nomes**:
+
+| Salvar como (em `vendor/`)        | Baixar de                                                                       |
+|-----------------------------------|---------------------------------------------------------------------------------|
+| `react.production.min.js`         | https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js            |
+| `react-dom.production.min.js`     | https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js    |
+| `react-is.production.min.js`      | https://cdn.jsdelivr.net/npm/react-is@18.3.1/umd/react-is.production.min.js      |
+| `Recharts.min.js`                 | https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.min.js                 |
+| `xlsx.full.min.js`                | https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js                   |
+
+Suba a pasta `vendor/` junto com os outros arquivos. Pronto — o painel passa a funcionar
+sem depender de internet externa (resta apenas a fonte e o Tailwind, que também podem ser
+baixados se necessário; me avise se precisar dessa parte também).
 
 ## Importante sobre os dados
 
-Os dados (colaboradores, perfis, importações de planilha) são salvos **no navegador
-de cada pessoa** (localStorage). Ou seja: cada usuário tem sua própria cópia, e uma
-alteração feita por uma pessoa **não** aparece para as outras automaticamente.
-
-Para um painel com dados **compartilhados entre todos** (uma alteração na Administração
-refletindo para qualquer pessoa que acessar), é necessário um backend com banco de dados
-(ex.: Supabase). Isso é uma etapa adicional, separada desta versão estática.
+Os dados são salvos **no navegador de cada pessoa** (localStorage). Cada usuário tem sua
+própria cópia; uma alteração feita por uma pessoa **não** aparece para as outras.
+Para dados compartilhados entre todos, é necessário um backend com banco de dados
+(ex.: Supabase) — etapa separada desta versão estática.
 
 ## Versão
 
-A versão atual aparece no rodapé do menu lateral do próprio painel.
-
-## Opcional: funcionar sem depender de CDN
-
-Se preferir não depender de internet/CDN, você pode baixar as bibliotecas e colocá-las
-junto dos arquivos, trocando os endereços no `index.html`:
-
-- React 18.3.1 (`react.production.min.js`)
-- ReactDOM 18.3.1 (`react-dom.production.min.js`)
-- react-is 18.3.1 (`react-is.production.min.js`)
-- Recharts 2.12.7 (`Recharts.min.js`)
-- XLSX 0.18.5 (`xlsx.full.min.js`)
-- Tailwind Play CDN (`https://cdn.tailwindcss.com`)
-
-Baixe cada um, salve na pasta e ajuste os `src=` no `index.html` para apontar para os
-arquivos locais.
+A versão atual aparece no rodapé do menu lateral do painel (atual: 1.0.0).
