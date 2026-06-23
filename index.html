@@ -1,51 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel GOP</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel GOP · Gestão de Metas</title>
+
+  <!-- Fontes (idênticas à versão React) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Leitura de planilhas .xlsx/.xls/.csv (equivalente ao import * as XLSX) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <!-- Gráfico de evolução (substitui o recharts LineChart) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Botão de menu (mobile) -->
-  <button id="btnMenu" class="btn-menu" aria-label="Abrir menu">☰</button>
+  <!-- Toda a árvore é construída dinamicamente em script.js (equivalente ao render do React). -->
+  <div id="app"></div>
 
-  <!-- Menu lateral -->
-  <aside id="menuLateral" class="menu">
-    <div class="menu-topo">
-      <div class="logo">
-        <span class="logo-marca">GOP</span>
-        <span class="logo-sub">Gestão · Operação · Premiação</span>
-      </div>
-    </div>
-    <nav class="menu-nav">
-      <button class="nav-item" data-tela="visao">Visão geral</button>
-      <button class="nav-item" data-tela="importar">Importar planilha</button>
-      <button class="nav-item" data-tela="admin">Administração</button>
-    </nav>
-    <div class="menu-rodape">
-      <span id="versaoApp">v1.0.0</span>
-    </div>
-  </aside>
-  <div id="overlay" class="overlay"></div>
-
-  <!-- Conteúdo principal -->
-  <main id="conteudo" class="conteudo"></main>
-
-  <!-- Modal genérico -->
-  <div id="modal" class="modal-fundo" hidden>
-    <div class="modal-caixa" role="dialog" aria-modal="true">
-      <button class="modal-fechar" id="modalFechar" aria-label="Fechar">✕</button>
-      <div id="modalConteudo"></div>
-    </div>
-  </div>
-
-  <!-- Aviso (toast) -->
-  <div id="toast" class="toast" hidden></div>
-
-  <script src="xlsx.js"></script>
-  <script src="regras.js"></script>
-  <script src="pptx.js"></script>
-  <script src="app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
